@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAN 2 Grobogan - Cerdas, Santun, dan Ceria</title>
+<meta name="description" content="Website resmi MAN 2 Grobogan dengan tampilan modern, teknologi digital, dan sistem informasi madrasah profesional.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+    :root {
+        --primary: #673DE6;
+        --accent: #0DB5A4;
+        --accent-dark: #099A8B;
+        --accent-light: #14C9B6;
+        --yellow: #FFC400;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #3b1e9e 0%, #673DE6 40%, #5028D6 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        color: #ffffff !important;
+        min-height: 100vh !important;
+    }
+
+    .web-container { width: 90%; max-width: 1280px; margin: auto; overflow: visible !important; }
+
+    /* ========== HEADER & LOGO ========== */
+    .custom-header {
+        width: 100%;
+        position: fixed;
+        top: 0; left: 0;
+        z-index: 999999 !important;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(26, 16, 61, 0.85);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: visible !important;
+    }
+
+    .custom-navbar {
+        height: 85px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        overflow: visible !important;
+    }
+
+    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none !important; color: #ffffff !important; flex-shrink: 0; }
+    .logo-box { width: 55px; height: 55px; border-radius: 12px; background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .logo-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
+
+    .logo-text { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+    .logo-text h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.2px; line-height: 1; margin: 0; color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .logo-text span { font-size: 12px; opacity: 0.9; letter-spacing: 0.5px; line-height: 1; color: #ffffff !important; }
+
+    /* ========== MENU & DROPDOWN ========== */
+    .custom-menu { display: flex; list-style: none; gap: 4px; align-items: center; margin: 0; padding: 0; overflow: visible !important; }
+    .custom-menu > li { position: relative !important; list-style: none !important; }
+    .custom-menu > li > a { color: #ffffff !important; text-decoration: none !important; padding: 10px 14px; display: block; border-radius: 12px; font-weight: 500; font-size: 0.95rem; transition: 0.3s; }
+    .custom-menu > li > a:hover { background: rgba(255, 255, 255, 0.15); }
+    .custom-menu > li.ppdb-cta > a { background: var(--accent) !important; font-weight: 600 !important; padding: 10px 20px !important; border-radius: 50px !important; box-shadow: 0 4px 15px rgba(13, 181, 164, 0.3); }
+    .custom-menu > li.ppdb-cta > a:hover { background: var(--accent-dark) !important; transform: translateY(-2px); }
+
+    .custom-dropdown {
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        width: 260px !important;
+        background: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 10px 0 !important;
+        margin-top: 15px !important;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: all 0.3s ease !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+        z-index: 9999999 !important;
+        display: block !important;
+        pointer-events: none;
+        list-style: none;
+    }
+
+    .custom-dropdown::before { content: ''; position: absolute; top: -25px; left: 0; width: 100%; height: 30px; background: transparent; }
+
+    .custom-menu > li.has-dropdown:hover .custom-dropdown {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+    }
+
+    .custom-dropdown li { width: 100% !important; display: block !important; margin: 0 !important; padding: 0 !important; list-style: none !important; }
+    .custom-dropdown li a { color: #1A103D !important; text-decoration: none !important; border: none !important; padding: 12px 24px !important; display: block !important; transition: 0.2s !important; font-size: 14px !important; font-weight: 500 !important; background: transparent !important; }
+    .custom-dropdown li a:hover { background: #673DE6 !important; color: #ffffff !important; padding-left: 32px !important; }
+
+    .hamburger { display: none; font-size: 26px; cursor: pointer; color: #ffffff; background: none; border: none; padding: 8px; }
+
+    /* ========== HERO SECTION ========== */
+    .hero { min-height: 100vh; display: flex; align-items: center; position: relative; padding: 170px 0 40px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; z-index: 2; position: relative; }
+    .hero-text h2 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.15; margin-bottom: 20px; font-weight: 800; color: #ffffff !important; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+    .hero-text p { font-size: 1.1rem; opacity: 1 !important; margin-bottom: 30px; color: #ffffff !important; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .hero-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #ffffff !important; padding: 14px 28px; border-radius: 50px; text-decoration: none !important; font-weight: 600; box-shadow: 0 8px 24px rgba(13, 181, 164, 0.3); transition: 0.3s; }
+    .hero-btn:hover { background: var(--accent-dark); transform: translateY(-3px); }
+
+    .hero-image { display: flex; justify-content: center; }
+    .hero-card { width: 100%; max-width: 600px; background: rgba(255, 255, 255, 0.18) !important; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.4) !important; padding: 20px; border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4) !important; }
+
+    .headline-content { position: relative; display: flex; flex-direction: column; gap: 16px; }
+    .headline-link { display: block; border-radius: 16px; overflow: hidden; line-height: 0; }
+    .headline-full { display: block; width: 100%; height: auto; max-height: 600px; object-fit: contain; border-radius: 16px; transition: transform 0.4s ease; }
+    .headline-link:hover .headline-full { transform: scale(1.03); }
+    .headline-video { display: block; width: 100%; max-height: 600px; border-radius: 16px; background: #000; }
+    .headline-iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: none; border-radius: 16px; background: #000; }
+    .headline-iframe.is-short { aspect-ratio: 9 / 16; width: 100%; }
+    .hero-card.is-portrait { max-width: 400px; }
+    .hero-card.is-portrait .headline-video, .hero-card.is-portrait .headline-full { max-height: none; }
+    .headline-badge { position: absolute; top: 12px; left: 12px; background: var(--accent); color: #ffffff !important; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; z-index: 2; }
+    .headline-img { width: 100%; height: 220px; object-fit: cover; border-radius: 16px; }
+    .headline-text { display: flex; flex-direction: column; gap: 8px; }
+    .headline-date { font-size: 0.85rem; color: #ffffff !important; }
+    .headline-text h3 { font-size: 1.4rem; line-height: 1.3; color: #ffffff !important; opacity: 1 !important; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .headline-text p { font-size: 0.95rem; line-height: 1.5; color: #ffffff !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .headline-read-more { display: inline-flex; align-items: center; gap: 8px; color: #ffffff !important; text-decoration: none !important; font-weight: 600; font-size: 0.95rem; transition: 0.3s; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .headline-read-more:hover { color: var(--yellow) !important; gap: 12px; }
+
+    /* ========== SECTIONS & FOOTER ========== */
+    .section { padding: 80px 0; }
+    .section-title { text-align: center; margin-bottom: 40px; }
+    .section-title h3 { font-size: 2.2rem; font-weight: 800; color: #ffffff !important; text-shadow: 0 2px 5px rgba(0,0,0,0.3); margin-bottom: 10px; }
+    .section-title p { color: #ffffff !important; opacity: 0.9 !important; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .card { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; overflow: hidden; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: 0.3s; }
+    .card:hover { transform: translateY(-8px); border-color: rgba(13, 181, 164, 0.4); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); }
+    .card img { width: 100%; height: 200px; object-fit: cover; }
+    .card-content { padding: 24px; }
+    .card-content h4 { margin-bottom: 10px; font-size: 1.3rem; color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .card-content p { font-size: 0.95rem; color: #ffffff !important; opacity: 0.9 !important; }
+
+    .custom-footer { padding: 60px 0 20px; background: rgba(18, 8, 43, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-box { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.08); }
+    .footer-box h4 { margin-bottom: 20px; font-size: 1.4rem; color: #ffffff !important; }
+    .footer-box iframe { width: 100%; height: 250px; border: none; border-radius: 16px; }
+
+    .contact-item { margin-bottom: 16px; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; color: #ffffff !important; }
+    .contact-item a { color: #ffffff !important; text-decoration: none !important; }
+
+    .social { display: flex; gap: 12px; margin-top: 20px; }
+    .social a { width: 45px; height: 45px; border-radius: 12px; background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; color: #ffffff !important; font-size: 1.2rem; text-decoration: none !important; transition: 0.3s; }
+    .social a:hover { background: var(--accent) !important; transform: translateY(-4px); }
+
+    .copyright { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; opacity: 0.8; font-size: 0.85rem; color: #ffffff !important; }
+
+    a.card { display: block; text-decoration: none !important; color: #ffffff !important; }
+    .card-date { font-size: 0.8rem; opacity: 0.85; margin-bottom: 8px; display: block; }
+    .card-content p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .berita-more { text-align: center; margin-top: 36px; }
+    .berita-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 36px; }
+    .nav-arrow { width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); background: var(--accent); color: #ffffff; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 6px 18px rgba(13,181,164,0.35); }
+    .nav-arrow:hover:not(:disabled) { background: var(--accent-dark); transform: translateY(-3px); }
+    .nav-arrow:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+    .nav-info { font-size: 0.9rem; opacity: 0.9; min-width: 70px; text-align: center; }
+
+    .ig-embed { width: 100%; height: 560px; border: none; border-radius: 16px; background: #ffffff; margin-top: 0; }
+    @media (max-width: 600px) { .ig-embed { height: 520px; } }
+
+    /* ========== HALAMAN ARTIKEL ========== */
+    .article-view { padding: 150px 0 80px; min-height: 80vh; }
+    .article-box { max-width: 860px; margin: auto; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; padding: 36px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    .back-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #ffffff !important; padding: 10px 20px; border-radius: 50px; text-decoration: none !important; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+    .back-btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .article-date { display: block; margin: 24px 0 8px; font-size: 0.85rem; opacity: 0.85; }
+    .article-title { font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1.3; margin-bottom: 24px; font-weight: 800; color: #ffffff !important; }
+    .article-body { font-size: 1rem; line-height: 1.8; color: #ffffff; overflow-wrap: anywhere; }
+    .article-body p, .article-body div { margin-bottom: 14px; }
+    .article-body img { max-width: 100%; height: auto !important; border-radius: 14px; margin: 10px auto; display: block; }
+    .article-body a { color: var(--accent-light) !important; text-decoration: underline; }
+    .share-bar { margin-top: 32px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.15); }
+    .article-box { position: relative; z-index: 10; }
+    .custom-footer { position: relative; z-index: 1; }
+    .share-wrap { position: relative; display: inline-block; }
+    .share-toggle { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.14); color: #ffffff; border: 1px solid rgba(255,255,255,0.35); padding: 11px 22px; border-radius: 50px; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.3s; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .share-toggle:hover, .share-wrap.open .share-toggle { background: var(--accent); border-color: var(--accent); box-shadow: 0 6px 20px rgba(13,181,164,0.4); }
+    .share-caret { font-size: 0.65rem; transition: transform 0.3s; }
+    .share-wrap.open .share-caret { transform: rotate(180deg); }
+    .share-menu { position: absolute; left: 0; top: calc(100% + 10px); width: 250px; background: #ffffff; border-radius: 18px; padding: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transform: translateY(8px); transition: all 0.25s ease; z-index: 50; }
+    .share-wrap.open .share-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .share-wrap.up .share-menu { top: auto; bottom: calc(100% + 10px); transform: translateY(-8px); }
+    .share-wrap.up.open .share-menu { transform: translateY(0); }
+    .share-item { display: flex; align-items: center; gap: 14px; width: 100%; padding: 9px 12px; border: none; background: transparent; border-radius: 12px; color: #1A103D !important; font-family: inherit; font-size: 0.92rem; font-weight: 500; text-decoration: none !important; cursor: pointer; text-align: left; transition: 0.2s; }
+    .share-item:hover { background: #F4F1FE; }
+    .si-ico { width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1rem; flex-shrink: 0; }
+    .share-sep { height: 1px; background: #eee; margin: 6px 8px; }
+    .sh-wa { background: #25D366; } .sh-fb { background: #1877F2; } .sh-x { background: #000000; } .sh-tg { background: #229ED9; }
+    .sh-ig { background: linear-gradient(45deg, #f09433, #dc2743 55%, #bc1888); } .sh-tt { background: #111111; } .sh-copy { background: var(--accent); } .sh-native { background: #6b5aa8; }
+    .toast { position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 20px); background: #1A103D; color: #ffffff; padding: 12px 22px; border-radius: 50px; font-size: 0.9rem; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 9999999; box-shadow: 0 10px 30px rgba(0,0,0,0.4); max-width: 90%; text-align: center; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .article-body iframe { max-width: 100%; border: none; border-radius: 14px; }
+    .article-body iframe.embed-frame { display: block; width: 100%; height: 560px; background: #ffffff; margin: 16px 0; }
+    .article-body iframe.embed-frame[src*="youtube"], .article-body iframe.embed-frame[src*="vimeo"], .article-body iframe.embed-frame[src*="blogger.com/video"] { height: auto; aspect-ratio: 16 / 9; }
+    @media (max-width: 600px) { .article-body iframe.embed-frame { height: 420px; } .article-body iframe.embed-frame[src*="youtube"], .article-body iframe.embed-frame[src*="vimeo"], .article-body iframe.embed-frame[src*="blogger.com/video"] { height: auto; } }
+    .list-view { padding: 150px 0 80px; min-height: 80vh; }
+    .list-msg { grid-column: 1 / -1; text-align: center; opacity: 0.9; padding: 40px 0; }
+    @media (max-width: 600px) { .list-view { padding-top: 120px; } }
+    .article-body .separator, .article-body table { max-width: 100%; }
+    .article-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); }
+    .article-source { color: #ffffff !important; opacity: 0.85; font-size: 0.9rem; text-decoration: none !important; }
+    .article-source:hover { color: var(--yellow) !important; }
+    @media (max-width: 600px) { .article-box { padding: 22px; } .article-view { padding-top: 120px; } }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 992px) {
+        .hero-grid { grid-template-columns: 1fr; text-align: center; }
+        .hero-text p { margin: 0 auto 30px; }
+        .footer-grid { grid-template-columns: 1fr; }
+        /* backdrop-filter pada header membuat menu "fixed" ikut terpotong; dimatikan di HP */
+        .custom-header { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #1a103d !important; }
+        .logo-text h1 { font-size: 18px; }
+        .logo-text span { font-size: 11px; }
+        .logo-box { width: 46px; height: 46px; }
+
+        .custom-menu { position: fixed; top: 85px; left: 0; width: 100%; height: calc(100vh - 85px); height: calc(100dvh - 85px); background: #24135c; flex-direction: column; padding: 16px 16px 40px; align-items: stretch; gap: 6px; overflow-y: auto !important; overscroll-behavior: contain; transform: translateX(-100%); visibility: hidden; transition: transform 0.3s ease, visibility 0.3s; z-index: 999998; }
+        .custom-menu.active { transform: translateX(0); visibility: visible; }
+        .custom-menu > li > a { padding: 14px 16px; font-size: 1rem; display: flex; align-items: center; justify-content: space-between; }
+        .custom-menu > li.has-dropdown > a::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 0.7rem; opacity: 0.8; transition: transform 0.3s; }
+        .custom-menu > li.has-dropdown.open > a { background: rgba(255, 255, 255, 0.14); }
+        .custom-menu > li.has-dropdown.open > a::after { transform: rotate(180deg); }
+        .custom-menu > li.ppdb-cta > a { justify-content: center; margin-top: 8px; }
+
+        .custom-dropdown { position: static !important; width: 100% !important; opacity: 1 !important; visibility: visible !important; display: none !important; background: rgba(255, 255, 255, 0.08) !important; border-radius: 12px !important; box-shadow: none !important; transform: none !important; margin: 6px 0 8px !important; padding: 6px 0 !important; pointer-events: auto !important; left: auto !important; right: auto !important; }
+        .custom-dropdown::before { display: none; }
+        .custom-menu .custom-dropdown li a { color: #ffffff !important; padding: 12px 20px !important; font-size: 0.92rem !important; }
+        .custom-menu .custom-dropdown li a:hover, .custom-menu .custom-dropdown li a:active { background: rgba(255, 255, 255, 0.15) !important; color: #ffffff !important; padding-left: 24px !important; }
+        .custom-menu > li.has-dropdown.open .custom-dropdown { display: block !important; }
+        .hamburger { display: block; }
+        body.menu-open { overflow: hidden !important; }
+    }
+</style>
+</head>
+<body>
+
+<header class="custom-header">
+    <div class="web-container">
+        <nav class="custom-navbar">
+            <a href="/" class="logo">
+                <div class="logo-box">
+                    <img src="https://i.ibb.co.com/KcywhB2N/logo.png" alt="Logo MAN 2 Grobogan">
+                </div>
+                <div class="logo-text">
+                    <h1>MAN 2 GROBOGAN</h1>
+                    <span>Cerdas, Santun, dan Ceria</span>
+                </div>
+            </a>
+
+            <ul class="custom-menu">
+                <li><a href="/">Beranda</a></li>
+
+                <li class="has-dropdown"><a href="#">Profil</a>
+                    <ul class="custom-dropdown">
+                        <li><a href="#p/2026/10/sejarah-madrasah">Sejarah Madrasah</a></li>
+                        <li><a href="#p/2026/10/visi-misi-dan-tujuan">Visi, Misi, dan Tujuan</a></li>
+                        <li><a href="#p/2026/10/sambutan-kepala-madrasah">Sambutan Kepala Madrasah</a></li>
+                        <li><a href="#p/2026/10/struktur-organisasi">Struktur Organisasi</a></li>
+                        <li><a href="#p/2026/10/guru-dan-tenaga-kependidikan">Guru dan Tenaga Kependidikan</a></li>
+                        <li><a href="#p/2026/10/sarana-dan-prasarana">Sarana dan Prasarana</a></li>
+                        <li><a href="#p/2026/10/identitas-madrasah">Identitas Madrasah</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-dropdown"><a href="#">Akademik</a>
+                    <ul class="custom-dropdown">
+                        <li><a href="#p/2026/10/kurikulum">Kurikulum</a></li>
+                        <li><a href="#p/2026/10/kalender-akademik">Kalender Akademik</a></li>
+                        <li><a href="#p/2026/10/jadwal-pelajaran">Jadwal Pelajaran</a></li>
+                        <li><a href="#p/2026/10/program-pembelajaran">Program Pembelajaran</a></li>
+                        <li><a href="#">RDM</a></li>
+                        <li><a href="#p/2026/10/dokumen-akademik">Dokumen Akademik</a></li>
+                        <li><a href="#p/2026/10/asesmen-dan-evaluasi">Asesmen dan Evaluasi</a></li>
+                        <li><a href="#p/2026/10/unduhan-akademik">Unduhan Akademik</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-dropdown"><a href="#">Kesiswaan</a>
+                    <ul class="custom-dropdown">
+                        <li><a href="#p/2026/10/osim">OSIM</a></li>
+                        <li><a href="#p/2026/10/ekstrakurikuler">Ekstrakurikuler</a></li>
+                        <li><a href="#p/2026/10/tata-tertib-siswa">Tata Tertib Siswa</a></li>
+                        <li><a href="#p/2026/10/bkkonseling">BK/Konseling</a></li>
+                        <li><a href="#p/2026/10/prestasi-siswa">Prestasi Siswa</a></li>
+                        <li><a href="#p/2026/10/alumni">Alumni</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-dropdown"><a href="#">Publikasi</a>
+                    <ul class="custom-dropdown">
+                        <li><a href="#list/mading">Mading</a></li>
+                        <li><a href="#list/berita">Berita</a></li>
+                        <li><a href="#p/2026/10/pengumuman">Pengumuman</a></li>
+                        <li><a href="#p/2026/10/agenda">Agenda</a></li>
+                        <li><a href="#list/foto">Galeri Foto</a></li>
+                        <li><a href="#list/video">Galeri Video</a></li>
+                        <li><a href="#p/2026/10/prestasi">Prestasi</a></li>
+                        <li><a href="#p/2026/10/arsip">Arsip</a></li>
+                    </ul>
+                </li>
+
+                <li class="ppdb-cta"><a href="https://ppdbman2grobogan.sch.id/" target="_blank" rel="noopener">PPDB</a></li>
+            </ul>
+
+            <button class="hamburger" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<section class="hero" id="hero-section">
+    <div class="web-container hero-grid">
+        <div class="hero-text">
+            <h2>Madrasah Digital Modern &amp; Futuristik</h2>
+            <p>Website resmi MAN 2 Grobogan dengan tampilan modern, teknologi digital, dan sistem informasi madrasah profesional.</p>
+            <a href="#kontak" class="hero-btn">Jelajahi Madrasah <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="hero-image">
+            <div class="hero-card">
+                <div class="headline-content">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" alt="Berita Utama" class="headline-full">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="berita-section">
+    <div class="web-container">
+        <div class="section-title">
+            <h3><i class="far fa-newspaper"></i> Berita Terbaru</h3>
+            <p>Informasi kegiatan terbaru MAN 2 Grobogan</p>
+        </div>
+        <div class="grid" id="berita-grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&amp;w=2064&amp;auto=format&amp;fit=crop" alt="Seminar">
+                <div class="card-content">
+                    <h4>Seminar Teknologi</h4>
+                    <p>Peningkatan kualitas pembelajaran berbasis digital dan AI.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&amp;w=2071&amp;auto=format&amp;fit=crop" alt="Prestasi">
+                <div class="card-content">
+                    <h4>Prestasi Siswa</h4>
+                    <p>Siswa MAN 2 Grobogan meraih penghargaan tingkat nasional.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" alt="Kegiatan">
+                <div class="card-content">
+                    <h4>Kegiatan Madrasah</h4>
+                    <p>Kegiatan islami, akademik, dan pengembangan karakter siswa.</p>
+                </div>
+            </div>
+        </div>
+        <div class="berita-nav" id="berita-nav" style="display:none;">
+            <button type="button" class="nav-arrow" id="berita-prev" aria-label="Berita yang lebih baru" disabled><i class="fas fa-chevron-left"></i></button>
+            <span class="nav-info" id="berita-info"></span>
+            <button type="button" class="nav-arrow" id="berita-next" aria-label="Berita sebelumnya"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
+
+<section class="section list-view" id="list-view" style="display:none;">
+    <div class="web-container">
+        <div class="section-title">
+            <h3 id="list-title"></h3>
+            <p id="list-desc"></p>
+        </div>
+        <div class="grid" id="list-grid"></div>
+        <div class="berita-nav" id="list-nav" style="display:none;">
+            <button type="button" class="nav-arrow" id="list-prev" aria-label="Halaman sebelumnya" disabled><i class="fas fa-chevron-left"></i></button>
+            <span class="nav-info" id="list-info"></span>
+            <button type="button" class="nav-arrow" id="list-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
+
+<section class="section article-view" id="article-view" style="display:none;">
+    <div class="web-container">
+        <div class="article-box">
+            <span class="article-date" id="article-date"></span>
+            <h2 class="article-title" id="article-title"></h2>
+            <div class="article-body" id="article-body"></div>
+            <div class="share-bar" id="share-bar" style="display:none;">
+                <div class="share-wrap" id="share-wrap">
+                    <button type="button" class="share-toggle" id="share-toggle" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-share-nodes"></i> Bagikan <i class="fas fa-chevron-down share-caret"></i>
+                    </button>
+                    <div class="share-menu" id="share-menu" role="menu">
+                        <a id="sh-wa" class="share-item" role="menuitem" target="_blank" rel="noopener"><span class="si-ico sh-wa"><i class="fab fa-whatsapp"></i></span>WhatsApp</a>
+                        <a id="sh-fb" class="share-item" role="menuitem" target="_blank" rel="noopener"><span class="si-ico sh-fb"><i class="fab fa-facebook-f"></i></span>Facebook</a>
+                        <a id="sh-x" class="share-item" role="menuitem" target="_blank" rel="noopener"><span class="si-ico sh-x"><i class="fab fa-x-twitter"></i></span>X (Twitter)</a>
+                        <a id="sh-tg" class="share-item" role="menuitem" target="_blank" rel="noopener"><span class="si-ico sh-tg"><i class="fab fa-telegram"></i></span>Telegram</a>
+                        <button type="button" id="sh-ig" class="share-item" role="menuitem"><span class="si-ico sh-ig"><i class="fab fa-instagram"></i></span>Instagram</button>
+                        <button type="button" id="sh-tt" class="share-item" role="menuitem"><span class="si-ico sh-tt"><i class="fab fa-tiktok"></i></span>TikTok</button>
+                        <div class="share-sep"></div>
+                        <button type="button" id="sh-copy" class="share-item" role="menuitem"><span class="si-ico sh-copy"><i class="fas fa-link"></i></span>Salin link</button>
+                        <button type="button" id="sh-native" class="share-item" role="menuitem" style="display:none;"><span class="si-ico sh-native"><i class="fas fa-ellipsis"></i></span>Lainnya...</button>
+                    </div>
+                </div>
+            </div>
+            <div class="toast" id="toast"></div>
+        </div>
+    </div>
+</section>
+
+<footer class="custom-footer" id="kontak">
+    <div class="web-container footer-grid">
+        <div class="footer-box">
+            <h4>Kontak Kami</h4>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i> Jl. Pilang Kidul Gubug, Kec. Gubug, Kab. Grobogan
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone-alt"></i> <a href="tel:02925150494">02925150494</a>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i> <a href="mailto:admin@man2-grobogan.sch.id">admin@man2-grobogan.sch.id</a>
+            </div>
+
+            <div class="social">
+                <a href="https://www.youtube.com/@man2grobogan" target="_blank" rel="noopener" title="YouTube MAN 2 Grobogan"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/man2grobogan" target="_blank" rel="noopener" title="Instagram MAN 2 Grobogan"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:admin@man2-grobogan.sch.id" title="Kirim Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="footer-box">
+            <h4>Lokasi Madrasah</h4>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.6243254877595!2d110.6575333!3d-7.0533531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e709684338de15d%3A0x53dc4b46f2bb2819!2sMAN%202%20GROBOGAN!5e0!3m2!1sid!2sid!4v1792919993596!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Peta lokasi MAN 2 Grobogan"></iframe>
+        </div>
+    </div>
+    <div class="copyright">
+        © 2026 MAN 2 Grobogan
+    </div>
+</footer>
+
+<script>
+    // Berita terbaru otomatis dari beritamandaga.blogspot.com
+    var BERITA_PER_PAGE = 3;
+    var beritaPage = 0;
+    var beritaLoading = false;
+
+    function loadBerita(page) {
+        if (beritaLoading) return;
+        beritaLoading = true;
+        var s = document.createElement('script');
+        s.src = 'https://beritamandaga.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=' + BERITA_PER_PAGE +
+                '&start-index=' + (page * BERITA_PER_PAGE + 1) + '&callback=renderBerita';
+        s.async = true;
+        s.onload = s.onerror = function () { beritaLoading = false; s.remove(); };
+        document.body.appendChild(s);
+        beritaPageRequested = page;
+    }
+    var beritaPageRequested = 0;
+
+    function updateBeritaNav(total) {
+        var nav = document.getElementById('berita-nav');
+        if (!total || total <= BERITA_PER_PAGE) { nav.style.display = 'none'; return; }
+        var pages = Math.ceil(total / BERITA_PER_PAGE);
+        nav.style.display = 'flex';
+        document.getElementById('berita-prev').disabled = beritaPage <= 0;
+        document.getElementById('berita-next').disabled = beritaPage >= pages - 1;
+        document.getElementById('berita-info').textContent = (beritaPage + 1) + ' / ' + pages;
+    }
+
+    function renderBerita(data) {
+        try {
+            var entries = (data.feed && data.feed.entry) || [];
+            if (!entries.length) return;
+            beritaPage = beritaPageRequested;
+            var total = parseInt((data.feed['openSearch$totalResults'] || {}).$t, 10) || 0;
+            updateBeritaNav(total);
+            var grid = document.getElementById('berita-grid');
+            var fallbackImg = 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=2070&auto=format&fit=crop';
+            grid.innerHTML = '';
+            entries.forEach(function (e) {
+                var link = '#';
+                (e.link || []).forEach(function (l) { if (l.rel === 'alternate') link = l.href; });
+                var html = (e.content && e.content.$t) || (e.summary && e.summary.$t) || '';
+                var tmp = document.createElement('div');
+                tmp.innerHTML = html;
+                var text = (tmp.textContent || '').replace(/\s+/g, ' ').trim();
+                if (text.length > 140) text = text.slice(0, 140).trim() + '…';
+                var img = fallbackImg;
+                if (e['media$thumbnail']) {
+                    img = e['media$thumbnail'].url.replace(/\/s\d+(-c)?\//, '/w640/');
+                } else {
+                    var m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+                    if (m) img = m[1];
+                }
+                var d = new Date(e.published.$t);
+                var tgl = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+                var a = document.createElement('a');
+                a.className = 'card';
+                var pid = ((e.id && e.id.$t) || '').match(/post-(\d+)/);
+                a.href = pid ? '#berita-' + pid[1] : link;
+
+                var im = document.createElement('img');
+                im.src = img;
+                im.alt = e.title.$t;
+                im.loading = 'lazy';
+
+                var box = document.createElement('div');
+                box.className = 'card-content';
+                var dt = document.createElement('span');
+                dt.className = 'card-date';
+                dt.textContent = tgl;
+                var h = document.createElement('h4');
+                h.textContent = e.title.$t;
+                var p = document.createElement('p');
+                p.textContent = text;
+
+                box.appendChild(dt); box.appendChild(h); box.appendChild(p);
+                a.appendChild(im); a.appendChild(box);
+                grid.appendChild(a);
+            });
+        } catch (err) { /* jika gagal, kartu bawaan tetap tampil */ }
+    }
+    loadBerita(0);
+    document.getElementById('berita-next').addEventListener('click', function () { loadBerita(beritaPage + 1); });
+    document.getElementById('berita-prev').addEventListener('click', function () { if (beritaPage > 0) loadBerita(beritaPage - 1); });
+
+    // =====================================================================
+    // BERITA UTAMA (kartu besar di beranda) - hanya menampilkan PREVIEW GAMBAR
+    // (tanpa judul, deskripsi, dan label). Kartu bisa diklik menuju link-nya.
+    //
+    //   >>>>>>>>>>  UNTUK MENGGANTI BERITA UTAMA, UBAH DI SINI  <<<<<<<<<<
+    //
+    var BERITA_UTAMA = {
+        // [WAJIB] TEMPEL LINK LENGKAP DI SINI (Instagram / berita / postingan apa saja)
+        // contoh: 'https://www.instagram.com/p/XXXXXXXXXXX/'
+        url: 'https://youtu.be/T5KTIuzo0Mo?si=QkR1M3v48H5vnpEf',
+
+        // [OPSIONAL] link gambar sendiri jika preview otomatis kurang pas.
+        // Biarkan '' agar gambar diambil otomatis dari link di atas.
+        gambar: ''
+    };
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>  AKHIR BAGIAN YANG DIUBAH  <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    // =====================================================================
+
+    (function () {
+        var cfg = BERITA_UTAMA;
+        var box = document.querySelector('.hero-card .headline-content');
+        if (!box || !cfg.url) return;   // url kosong = gambar contoh bawaan tetap tampil
+
+        // Media vertikal (Shorts/Reels/video tegak): kartu dipersempit agar media memenuhi kartu secara pas
+        var heroCard = document.querySelector('.hero-card');
+        function setPortrait(on) { if (heroCard) heroCard.classList.toggle('is-portrait', !!on); }
+
+        function showImage(src) {
+            box.innerHTML = '';
+            var a = document.createElement('a');
+            a.className = 'headline-link'; a.href = cfg.url; a.target = '_blank'; a.rel = 'noopener';
+            var im = document.createElement('img');
+            im.className = 'headline-full'; im.alt = 'Berita Utama';
+            im.referrerPolicy = 'no-referrer';
+            im.onload = function () { setPortrait(im.naturalHeight > im.naturalWidth * 1.15); };
+            im.src = src;
+            a.appendChild(im);
+            box.appendChild(a);
+        }
+
+        // Cadangan: link Instagram ditampilkan lewat embed resmi
+        function showInstagramEmbed() {
+            var m = cfg.url.match(/instagram\.com\/(p|reel|tv)\/([A-Za-z0-9_-]+)/);
+            if (!m) return false;
+            box.innerHTML = '<iframe class="ig-embed" src="https://www.instagram.com/' + m[1] + '/' + m[2] + '/embed" loading="lazy" allowtransparency="true" scrolling="no" title="Berita Utama"></iframe>';
+            return true;
+        }
+
+        // ---- Jika linknya VIDEO: otomatis play (tanpa suara) dan ulang terus ----
+        // Didukung: file video langsung (.mp4/.webm), YouTube (termasuk Shorts), Vimeo.
+        // Catatan: browser hanya mengizinkan autoplay jika video tanpa suara (muted);
+        // pengunjung bisa menyalakan suara lewat kontrol video.
+        function showVideo() {
+            var u = cfg.url, m;
+            if (/\.(mp4|webm|ogv|mov)(\?.*)?(#.*)?$/i.test(u)) {
+                box.innerHTML = '';
+                var v = document.createElement('video');
+                v.className = 'headline-video';
+                v.src = u;
+                v.autoplay = true; v.loop = true; v.muted = true; v.defaultMuted = true;
+                v.playsInline = true; v.controls = true; v.preload = 'auto';
+                v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+                v.addEventListener('loadedmetadata', function () { setPortrait(v.videoHeight > v.videoWidth * 1.15); });
+                box.appendChild(v);
+                var p = v.play(); if (p && p.catch) p.catch(function () {});
+                return true;
+            }
+            m = u.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+            if (m) {
+                var short = /youtube\.com\/shorts\//.test(u);
+                var origin = /^https?:/.test(location.protocol) ? '&origin=' + encodeURIComponent(location.origin) : '';
+                setPortrait(short);
+                box.innerHTML = '<iframe class="headline-iframe' + (short ? ' is-short' : '') + '" src="https://www.youtube.com/embed/' + m[1] +
+                    '?autoplay=1&mute=1&loop=1&playlist=' + m[1] + '&playsinline=1&controls=1&rel=0&modestbranding=1&enablejsapi=1' + origin + '" ' +
+                    'referrerpolicy="strict-origin-when-cross-origin" ' +
+                    'allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Berita Utama"></iframe>';
+                return true;
+            }
+            m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+            if (m) {
+                box.innerHTML = '<iframe class="headline-iframe" src="https://player.vimeo.com/video/' + m[1] +
+                    '?autoplay=1&muted=1&loop=1&playsinline=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Berita Utama"></iframe>';
+                return true;
+            }
+            return false;
+        }
+        if (showVideo()) return;
+
+        // Gambar manual diisi: langsung pakai
+        if (cfg.gambar) { showImage(cfg.gambar); return; }
+
+        // Ambil gambar preview otomatis dari link
+        fetch('https://api.microlink.io/?url=' + encodeURIComponent(cfg.url))
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                var d = (res && res.data) || {};
+                var src = (d.image && d.image.url) || '';
+                if (!src) throw new Error('preview kosong');
+                var probe = new Image();
+                probe.referrerPolicy = 'no-referrer';
+                probe.onload = function () { showImage(src); };
+                probe.onerror = function () { if (!showInstagramEmbed()) throw new Error('gambar gagal'); };
+                probe.src = src;
+            })
+            .catch(function () {
+                if (!showInstagramEmbed()) {
+                    // gambar bawaan tetap tampil, tapi bisa diklik ke link
+                    var img = box.querySelector('img');
+                    if (img && !img.closest('a')) {
+                        var a = document.createElement('a');
+                        a.className = 'headline-link'; a.href = cfg.url; a.target = '_blank'; a.rel = 'noopener';
+                        img.parentNode.insertBefore(a, img); a.appendChild(img);
+                    }
+                }
+            });
+    })();
+
+    // ===== Halaman artikel di dalam landing page =====
+    var currentPost = null;
+
+    function cleanHTML(html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        doc.querySelectorAll('script, style, object, embed, form, link, meta').forEach(function (n) { n.remove(); });
+        var okFrame = /^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|drive\.google\.com|docs\.google\.com|google\.com\/maps|forms\.gle|player\.vimeo\.com)\//i;
+        var sheetLink = /^https:\/\/docs\.google\.com\/(spreadsheets|document|presentation)\/d\/e\/[^\s]+\/(pubhtml|pub|embed)/i;
+        var framed = {};
+        doc.querySelectorAll('iframe').forEach(function (f) {
+            var src = f.getAttribute('src') || '';
+            if (src.indexOf('//') === 0) src = 'https:' + src;
+            if (!okFrame.test(src) && !/^https:\/\/(www\.)?blogger\.com\/video\.g/i.test(src)) { f.remove(); return; }
+            f.setAttribute('src', src);
+            f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms');
+            f.removeAttribute('width');
+            f.removeAttribute('height');
+            f.className = 'embed-frame';
+            framed[src] = true;
+        });
+        // Link spreadsheet/dokumen Google yang dipublikasikan otomatis ditampilkan langsung
+        doc.querySelectorAll('a[href]').forEach(function (a) {
+            var href = a.getAttribute('href') || '';
+            if (!sheetLink.test(href) || framed[href]) return;
+            var fr = doc.createElement('iframe');
+            fr.setAttribute('src', href);
+            fr.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms');
+            fr.className = 'embed-frame';
+            fr.setAttribute('loading', 'lazy');
+            var holder = a.closest('div, p') || a;
+            holder.parentNode.insertBefore(fr, holder.nextSibling);
+            framed[href] = true;
+        });
+        doc.body.querySelectorAll('*').forEach(function (n) {
+            Array.prototype.slice.call(n.attributes).forEach(function (at) {
+                var name = at.name.toLowerCase();
+                if (name.indexOf('on') === 0 || /^\s*javascript:/i.test(at.value)) n.removeAttribute(at.name);
+            });
+            if (n.tagName === 'A') { n.target = '_blank'; n.rel = 'noopener'; }
+        });
+        return doc.body.innerHTML;
+    }
+
+    function renderPost(data) {
+        try {
+            var e = data.entry;
+            var pid = ((e.id && e.id.$t) || '').match(/post-(\d+)/);
+            if (!pid || pid[1] !== currentPost) return;
+            document.title = e.title.$t + ' - MAN 2 Grobogan';
+            document.getElementById('article-title').textContent = e.title.$t;
+            document.getElementById('article-date').textContent = new Date(e.published.$t).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('article-body').innerHTML = cleanHTML((e.content && e.content.$t) || '');
+            updateShare(e.title.$t);
+        } catch (err) {
+            document.getElementById('article-body').textContent = 'Berita tidak dapat dimuat.';
+        }
+    }
+
+    function showArticle(id, key) {
+        key = (typeof BLOGS !== 'undefined' && BLOGS[key]) ? key : 'berita';
+        var host = (typeof BLOGS !== 'undefined') ? BLOGS[key].host : 'beritamandaga.blogspot.com';
+        currentPost = id;
+        document.getElementById('hero-section').style.display = 'none';
+        document.getElementById('berita-section').style.display = 'none';
+        document.getElementById('article-view').style.display = 'block';
+        document.getElementById('share-bar').style.display = 'none';
+        document.getElementById('article-title').textContent = 'Memuat berita...';
+        document.getElementById('article-date').textContent = '';
+        document.getElementById('article-body').innerHTML = '';
+        window.scrollTo(0, 0);
+        var s = document.createElement('script');
+        s.src = 'https://' + host + '/feeds/posts/default/' + id + '?alt=json-in-script&callback=renderPost';
+        s.onerror = function () { document.getElementById('article-title').textContent = 'Berita tidak dapat dimuat.'; };
+        document.body.appendChild(s);
+    }
+
+    // ===== Tombol bagikan =====
+    var shareTitle = '';
+    function showToast(msg) {
+        var t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(function () { t.classList.remove('show'); }, 2600);
+    }
+    function copyLink(msg) {
+        var url = location.href;
+        function fallback() {
+            var ta = document.createElement('textarea');
+            ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            ta.remove();
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).catch(fallback);
+        } else { fallback(); }
+        showToast(msg || 'Link disalin');
+    }
+    function updateShare(title) {
+        shareTitle = title || document.title;
+        var url = encodeURIComponent(location.href);
+        var text = encodeURIComponent(shareTitle);
+        document.getElementById('sh-wa').href = 'https://wa.me/?text=' + text + '%0A' + url;
+        document.getElementById('sh-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+        document.getElementById('sh-x').href = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + url;
+        document.getElementById('sh-tg').href = 'https://t.me/share/url?url=' + url + '&text=' + text;
+        document.getElementById('share-bar').style.display = 'flex';
+    }
+    (function () {
+        document.getElementById('sh-copy').addEventListener('click', function () { copyLink('Link disalin'); });
+        document.getElementById('sh-ig').addEventListener('click', function () {
+            copyLink('Link disalin. Tempel di Instagram (story, bio, atau pesan).');
+        });
+        document.getElementById('sh-tt').addEventListener('click', function () {
+            copyLink('Link disalin. Tempel di TikTok (bio atau komentar).');
+        });
+        var nb = document.getElementById('sh-native');
+        if (navigator.share) {
+            nb.style.display = 'inline-flex';
+            nb.addEventListener('click', function () {
+                navigator.share({ title: shareTitle, url: location.href }).catch(function () {});
+            });
+        }
+    })();
+
+    // Dropdown bagikan: buka/tutup
+    (function () {
+        var wrap = document.getElementById('share-wrap');
+        var toggle = document.getElementById('share-toggle');
+        function setOpen(open) {
+            if (open) {
+                var r = toggle.getBoundingClientRect();
+                wrap.classList.toggle('up', window.innerHeight - r.bottom < 380 && r.top > 380);
+            }
+            wrap.classList.toggle('open', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+        toggle.addEventListener('click', function (e) { e.stopPropagation(); setOpen(!wrap.classList.contains('open')); });
+        document.getElementById('share-menu').addEventListener('click', function () { setTimeout(function () { setOpen(false); }, 50); });
+        document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) setOpen(false); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+    })();
+
+    // ===== Halaman info dari infomandaga.blogspot.com (tampil di dalam landing page) =====
+    var currentPath = null;
+
+    function renderPage(data) {
+        try {
+            var e = data.feed.entry[0];
+            if (!currentPath) return;
+            document.title = e.title.$t + ' - MAN 2 Grobogan';
+            document.getElementById('article-title').textContent = e.title.$t;
+            document.getElementById('article-date').textContent = '';
+            document.getElementById('article-body').innerHTML = cleanHTML((e.content && e.content.$t) || '');
+            updateShare(e.title.$t);
+        } catch (err) {
+            document.getElementById('article-title').textContent = 'Halaman tidak dapat dimuat.';
+        }
+    }
+
+    function showPage(path) {
+        currentPost = null;
+        currentPath = path;
+        document.getElementById('hero-section').style.display = 'none';
+        document.getElementById('berita-section').style.display = 'none';
+        document.getElementById('article-view').style.display = 'block';
+        document.getElementById('share-bar').style.display = 'none';
+        document.getElementById('article-title').textContent = 'Memuat halaman...';
+        document.getElementById('article-date').textContent = '';
+        document.getElementById('article-body').innerHTML = '';
+        window.scrollTo(0, 0);
+        var s = document.createElement('script');
+        s.src = 'https://infomandaga.blogspot.com/feeds/posts/default?alt=json-in-script&path=' + encodeURIComponent('/' + path + '.html') + '&callback=renderPage';
+        s.onerror = function () { document.getElementById('article-title').textContent = 'Halaman tidak dapat dimuat.'; };
+        document.body.appendChild(s);
+    }
+
+    // ===== Daftar postingan (Berita, Mading, Galeri Foto, Galeri Video) =====
+    var BLOGS = {
+        berita: { host: 'beritamandaga.blogspot.com', title: 'Berita', icon: 'far fa-newspaper', desc: 'Berita terbaru MAN 2 Grobogan' },
+        mading: { host: 'madingmandaga.blogspot.com', title: 'Mading', icon: 'fas fa-clipboard', desc: 'Karya dan informasi dari mading madrasah' },
+        foto:   { host: 'fotomandaga.blogspot.com',   title: 'Galeri Foto', icon: 'far fa-images', desc: 'Dokumentasi foto kegiatan MAN 2 Grobogan' },
+        video:  { host: 'videomandaga.blogspot.com',  title: 'Galeri Video', icon: 'fas fa-video', desc: 'Dokumentasi video kegiatan MAN 2 Grobogan' }
+    };
+    var LIST_PER_PAGE = 9;
+    var listReq = 0;
+    var jsonpSeq = 0;
+    var FALLBACK_IMG = 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=2070&auto=format&fit=crop';
+
+    function jsonp(url, ok, fail) {
+        var name = '__jp' + (++jsonpSeq);
+        var s = document.createElement('script');
+        function cleanup() { try { delete window[name]; } catch (e) { window[name] = undefined; } s.remove(); }
+        window[name] = function (d) { cleanup(); ok(d); };
+        s.onerror = function () { cleanup(); if (fail) fail(); };
+        s.src = url + (url.indexOf('?') > -1 ? '&' : '?') + 'alt=json-in-script&callback=' + name;
+        document.body.appendChild(s);
+    }
+
+    function entryThumb(e) {
+        var html = (e.content && e.content.$t) || '';
+        if (e['media$thumbnail']) return e['media$thumbnail'].url.replace(/\/s\d+(-c)?\//, '/w640/');
+        var m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+        if (m) return m[1];
+        var y = html.match(/youtube(?:-nocookie)?\.com\/embed\/([A-Za-z0-9_-]{6,})/);
+        if (y) return 'https://img.youtube.com/vi/' + y[1] + '/hqdefault.jpg';
+        return FALLBACK_IMG;
+    }
+
+    function buildCard(e, key) {
+        var html = (e.content && e.content.$t) || (e.summary && e.summary.$t) || '';
+        var text = (new DOMParser().parseFromString(html, 'text/html').body.textContent || '').replace(/\s+/g, ' ').trim();
+        if (text.length > 140) text = text.slice(0, 140).trim() + '…';
+        var pid = ((e.id && e.id.$t) || '').match(/post-(\d+)/);
+        var a = document.createElement('a');
+        a.className = 'card';
+        a.href = pid ? '#a/' + key + '/' + pid[1] : '#';
+        var im = document.createElement('img');
+        im.src = entryThumb(e); im.alt = e.title.$t; im.loading = 'lazy';
+        var box = document.createElement('div'); box.className = 'card-content';
+        var dt = document.createElement('span'); dt.className = 'card-date';
+        dt.textContent = new Date(e.published.$t).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        var h = document.createElement('h4'); h.textContent = e.title.$t;
+        box.appendChild(dt); box.appendChild(h);
+        if (text) { var p = document.createElement('p'); p.textContent = text; box.appendChild(p); }
+        a.appendChild(im); a.appendChild(box);
+        return a;
+    }
+
+    function showList(key, page) {
+        var b = BLOGS[key];
+        if (!b) { showHome(true); return; }
+        if (!page || page < 1) page = 1;
+        currentPost = null; currentPath = null;
+        document.getElementById('hero-section').style.display = 'none';
+        document.getElementById('berita-section').style.display = 'none';
+        document.getElementById('article-view').style.display = 'none';
+        document.getElementById('list-view').style.display = 'block';
+        document.getElementById('list-title').innerHTML = '<i class="' + b.icon + '"></i> ' + b.title;
+        document.getElementById('list-desc').textContent = b.desc;
+        document.getElementById('list-nav').style.display = 'none';
+        var grid = document.getElementById('list-grid');
+        grid.innerHTML = '<p class="list-msg">Memuat...</p>';
+        document.title = b.title + ' - MAN 2 Grobogan';
+        window.scrollTo(0, 0);
+
+        var req = ++listReq;
+        function fail() {
+            if (req !== listReq) return;
+            grid.innerHTML = '<p class="list-msg">' + b.title + ' tidak dapat dimuat.</p>';
+        }
+        jsonp('https://' + b.host + '/feeds/posts/default?max-results=' + LIST_PER_PAGE + '&start-index=' + ((page - 1) * LIST_PER_PAGE + 1), function (data) {
+            if (req !== listReq) return;
+            var entries = (data.feed && data.feed.entry) || [];
+            grid.innerHTML = '';
+            if (!entries.length) { grid.innerHTML = '<p class="list-msg">Belum ada postingan.</p>'; return; }
+            entries.forEach(function (e) { grid.appendChild(buildCard(e, key)); });
+            var total = parseInt((data.feed['openSearch$totalResults'] || {}).$t, 10) || 0;
+            var pages = Math.max(1, Math.ceil(total / LIST_PER_PAGE));
+            if (pages > 1) {
+                document.getElementById('list-nav').style.display = 'flex';
+                document.getElementById('list-info').textContent = page + ' / ' + pages;
+                var prev = document.getElementById('list-prev'), next = document.getElementById('list-next');
+                prev.disabled = page <= 1;
+                next.disabled = page >= pages;
+                prev.onclick = function () { location.hash = page - 1 <= 1 ? '#list/' + key : '#list/' + key + '/' + (page - 1); };
+                next.onclick = function () { location.hash = '#list/' + key + '/' + (page + 1); };
+            }
+        }, fail);
+    }
+
+    function showHome(scroll) {
+        currentPost = null;
+        currentPath = null;
+        document.title = 'MAN 2 Grobogan - Cerdas, Santun, dan Ceria';
+        listReq++;
+        document.getElementById('list-view').style.display = 'none';
+        document.getElementById('article-view').style.display = 'none';
+        document.getElementById('hero-section').style.display = '';
+        document.getElementById('berita-section').style.display = '';
+        if (scroll) window.scrollTo(0, 0);
+    }
+
+    function route() {
+        var m = location.hash.match(/^#berita-(\d+)$/);
+        var am = location.hash.match(/^#a\/([a-z]+)\/(\d+)$/);
+        var lm = location.hash.match(/^#list\/([a-z]+)(?:\/(\d+))?$/);
+        var pg = location.hash.match(/^#p\/(\d{4}\/\d{2}\/[a-z0-9-]+)$/);
+        document.getElementById('list-view').style.display = 'none';
+        if (m) { currentPath = null; showArticle(m[1], 'berita'); }
+        else if (am) { currentPath = null; showArticle(am[2], am[1]); }
+        else if (lm) showList(lm[1], parseInt(lm[2] || '1', 10));
+        else if (pg) showPage(pg[1]);
+        else showHome(location.hash === '' || location.hash === '#');
+    }
+    window.addEventListener('hashchange', route);
+    route();
+
+    // Link "Beranda" / logo / "Kembali ke Beranda" selalu kembali ke landing page
+    document.querySelectorAll('a[href="/"]').forEach(function (a) {
+        a.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            document.querySelector('.custom-menu').classList.remove('active');
+            if (location.hash) history.pushState('', document.title, location.pathname + location.search);
+            showHome(true);
+        });
+    });
+
+    // Klik submenu: tutup menu mobile
+    document.querySelectorAll('.custom-dropdown a[href^="#p/"]').forEach(function (a) {
+        a.addEventListener('click', function () {
+            document.querySelector('.custom-menu').classList.remove('active');
+            document.querySelectorAll('.has-dropdown.open').forEach(function (li) { li.classList.remove('open'); });
+        });
+    });
+
+    // Menu mobile: buka/tutup hamburger dan dropdown
+    (function () {
+        var burger = document.querySelector('.hamburger');
+        var menu = document.querySelector('.custom-menu');
+        function setMenu(open) {
+            menu.classList.toggle('active', open);
+            document.body.classList.toggle('menu-open', open);
+            burger.innerHTML = open ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            if (!open) document.querySelectorAll('.has-dropdown.open').forEach(function (li) { li.classList.remove('open'); });
+        }
+        burger.addEventListener('click', function () {
+            setMenu(!menu.classList.contains('active'));
+        });
+        // Tutup menu saat memilih link (bukan induk dropdown)
+        menu.querySelectorAll('a').forEach(function (a) {
+            if (a.parentElement.classList.contains('has-dropdown')) return;
+            a.addEventListener('click', function () { setMenu(false); });
+        });
+        window.addEventListener('resize', function () { if (window.innerWidth > 992) setMenu(false); });
+        document.querySelectorAll('.has-dropdown > a').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                if (window.innerWidth <= 992) {
+                    var li = link.parentElement;
+                    if (link.getAttribute('href') === '#') e.preventDefault();
+                    var wasOpen = li.classList.contains('open');
+                    document.querySelectorAll('.has-dropdown.open').forEach(function (o) { o.classList.remove('open'); });
+                    if (!wasOpen) li.classList.add('open');
+                }
+            });
+        });
+    })();
+</script>
+</body>
+</html>

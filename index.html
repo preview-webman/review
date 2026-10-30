@@ -237,6 +237,29 @@
         .hamburger { display: block; }
         body.menu-open { overflow: hidden !important; }
     }
+
+    /* ========== HERO FOTO: HP = SAMA SEPERTI PC ========== */
+    .hero-media { position: absolute; inset: 0; z-index: 0; }
+
+    @media (max-width: 700px) {
+        .hero-media {
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 65%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 65%, transparent 100%);
+        }
+        .hero-bg {
+            position: relative;
+            inset: auto;
+            display: block;
+            height: auto;
+            max-width: none;
+            width: var(--hero-zoom-hp, 100%);
+            margin-left: calc((100% - var(--hero-zoom-hp, 100%)) / 2);
+        }
+    }
 </style>
 </head>
 <body>
@@ -317,8 +340,10 @@
 </header>
 
 <section class="hero" id="hero-section">
-    <img class="hero-bg" id="hero-bg" alt="" referrerpolicy="no-referrer" decoding="async">
-    <div class="hero-overlay" id="hero-overlay"></div>
+    <div class="hero-media" id="hero-media">
+        <img class="hero-bg" id="hero-bg" alt="" referrerpolicy="no-referrer" decoding="async">
+        <div class="hero-overlay" id="hero-overlay"></div>
+    </div>
     <div class="web-container hero-grid">
         <div class="hero-text">
             <h2>Madrasah Digital Modern &amp; Futuristik</h2>
@@ -542,7 +567,11 @@
 
         // Bagian foto yang diutamakan saat harus dipotong (terutama di HP):
         // 'center', 'left center', 'right center', 'center top', '30% 50%', dst.
-        posisi: 'center'
+        posisi: 'center',
+
+        // Zoom foto di HP (layar <= 700px):
+        // 100 = foto selebar layar (sama seperti tampilan PC), 120 = lebih dekat.
+        zoomHP: 100
     };
     // >>>>>>>>>>>>>>>>>>  AKHIR BAGIAN YANG DIUBAH  <<<<<<<<<<<<<<<<<<<<<<<<<<<
     // =====================================================================
@@ -551,6 +580,7 @@
         var bg = document.getElementById('hero-bg');
         var overlay = document.getElementById('hero-overlay');
         if (!bg || !HERO.gambar) return;   // kosong = latar ungu bawaan tetap tampil
+        document.documentElement.style.setProperty('--hero-zoom-hp', Math.max(100, Number(HERO.zoomHP) || 100) + '%');
         bg.onload = function () {
             bg.classList.add('is-ready');
             if (overlay) overlay.style.opacity = Math.min(1, Math.max(0, Number(HERO.gelap) || 0));

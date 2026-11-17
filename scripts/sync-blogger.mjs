@@ -8,7 +8,7 @@ import { mkdir, rm, writeFile } from 'node:fs/promises';
 
 const SITE_URL = (process.env.SITE_URL || '').replace(/\/?$/, '/');
 if (!/^https:\/\//.test(SITE_URL)) {
-  console.error('SITE_URL belum diisi, mis. https://username.github.io/nama-repo/');
+  console.error('https://preview-webman.github.io/review/');
   process.exit(1);
 }
 const DEFAULT_IMAGE = process.env.DEFAULT_IMAGE || 'https://i.ibb.co.com/KcywhB2N/logo.png';

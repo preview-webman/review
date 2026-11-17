@@ -26,7 +26,7 @@ jobs:
         run: node scripts/sync-blogger.mjs
         env:
           # GANTI dengan alamat situs Anda (akhiri dengan /)
-          SITE_URL: https://USERNAME.github.io/NAMA-REPO/
+          SITE_URL: https://preview-webman.github.io/review/
 
       - name: Simpan perubahan
         run: |

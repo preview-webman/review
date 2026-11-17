@@ -8,7 +8,7 @@
   Jika nanti menambah layanan baru (font, skrip, iframe, blog lain), tambahkan domainnya di sini.
   Cek Console browser: pelanggaran CSP akan muncul sebagai "Refused to ...".
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.blogspot.com https://*.blogspot.co.id; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://drive.google.com https://docs.google.com https://www.google.com https://player.vimeo.com https://www.blogger.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://*.blogspot.com https://*.blogspot.co.id; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.blogspot.com https://*.blogspot.co.id https://cloudflareinsights.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://drive.google.com https://docs.google.com https://www.google.com https://player.vimeo.com https://www.blogger.com; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>MAN 2 Grobogan - Cerdas, Santun, dan Berprestasi</title>
 <meta name="description" content="Website resmi MAN 2 Grobogan dengan tampilan modern, teknologi digital, dan sistem informasi madrasah profesional.">
@@ -594,12 +594,41 @@
         return o;
     }
 
-    // Daftar postingan satu blog -> { items:[{id,title,published,thumb,excerpt}], total }
+    // JSONP hanya ke blog milik sendiri (daftar host di CONFIG). Blogger tidak mengirim header CORS, jadi fetch tidak bisa.
+    var JP_HOSTS = [CONFIG.infoHost].concat(Object.keys(CONFIG.blogs).map(function (k) { return CONFIG.blogs[k].host; }));
+    var jpSeq = 0;
+
+    function jsonp(url, ms) {
+        return new Promise(function (resolve, reject) {
+            var host = url.replace(/^https:\/\//, '').split('/')[0];
+            if (JP_HOSTS.indexOf(host) < 0) { reject(new Error('host tidak diizinkan')); return; }
+            var name = '__jp' + (++jpSeq), s = document.createElement('script'), done = false;
+            function end() {
+                done = true;
+                clearTimeout(timer);
+                window[name] = function () {}; // jawaban yang telat tidak menimbulkan error
+                s.remove();
+            }
+            var timer = setTimeout(function () { if (!done) { end(); reject(new Error('timeout')); } }, ms || 8000);
+            window[name] = function (d) { if (!done) { end(); resolve(d); } };
+            s.onerror = function () { if (!done) { end(); reject(new Error('gagal dimuat')); } };
+            s.src = url + (url.indexOf('?') > -1 ? '&' : '?') + 'alt=json-in-script&callback=' + name;
+            document.head.appendChild(s);
+        });
+    }
+
+    function getFeed(url) {
+        var hit = memCache[url];
+        if (hit && Date.now() - hit.t < 60000) return Promise.resolve(hit.d);
+        return jsonp(url).then(function (d) { memCache[url] = { t: Date.now(), d: d }; return d; });
+    }
+
+    // Daftar postingan -> { items, total }. Utama: Blogger langsung (instan). Cadangan: data/<blog>.json hasil Actions.
     function loadList(key, page, per) {
         var host = CONFIG.blogs[key].host;
         function live() {
-            var u = 'https://' + host + '/feeds/posts/default?alt=json&max-results=' + per + '&start-index=' + ((page - 1) * per + 1);
-            return getJSON(u).then(function (d) {
+            var u = 'https://' + host + '/feeds/posts/default?max-results=' + per + '&start-index=' + ((page - 1) * per + 1);
+            return getFeed(u).then(function (d) {
                 var entries = (d.feed && d.feed.entry) || [];
                 return {
                     items: entries.map(function (e) { return norm(e); }),
@@ -607,28 +636,30 @@
                 };
             });
         }
-        if (noPrebuilt[key]) return live();
-        return getJSON('data/' + key + '.json').then(function (arr) {
-            return { items: arr.slice((page - 1) * per, page * per), total: arr.length };
-        }, function () { noPrebuilt[key] = true; return live(); });
+        function saved() {
+            return getJSON('data/' + key + '.json').then(function (arr) {
+                return { items: arr.slice((page - 1) * per, page * per), total: arr.length };
+            });
+        }
+        return live().then(null, saved);
     }
 
-    // Peta slug -> halaman info
-    var infoPromise = null;
-    function getInfo() {
-        if (infoPromise) return infoPromise;
-        infoPromise = getJSON('data/info.json').then(null, function () {
-            return getJSON('https://' + CONFIG.infoHost + '/feeds/posts/default?alt=json&max-results=500').then(function (d) {
-                var map = {};
+    // Halaman info (Profil, Akademik, dst.): salinan Actions dulu (cepat); jika slug belum ada di sana, ambil langsung dari Blogger.
+    function getInfoPage(slug) {
+        return getJSON('data/info.json').then(function (map) {
+            if (!map[slug]) throw new Error('belum ada di salinan');
+            return map[slug];
+        }).then(null, function () {
+            return getFeed('https://' + CONFIG.infoHost + '/feeds/posts/default?max-results=500').then(function (d) {
+                var found = null;
                 ((d.feed && d.feed.entry) || []).forEach(function (e) {
                     var n = norm(e, true), m = n.url.match(/\/([^\/]+)\.html$/);
-                    if (m) map[m[1]] = n;
+                    if (m && m[1] === slug) found = n;
                 });
-                return map;
+                if (!found) throw new Error('tidak ada');
+                return found;
             });
         });
-        infoPromise.catch(function () { infoPromise = null; });
-        return infoPromise;
     }
 
     /* =====================================================================
@@ -965,12 +996,12 @@
         say(msg);
     }
 
-    // Isi artikel: salinan hasil GitHub Actions dulu (data/<blog>/<id>.json), bila tidak ada baru feed Blogger langsung
+    // Isi artikel: Blogger langsung (instan); cadangan: data/<blog>/<id>.json hasil Actions
     function getPost(key, id) {
         var host = CONFIG.blogs[key].host;
-        return getJSON('data/' + key + '/' + id + '.json').then(null, function () {
-            return getJSON('https://' + host + '/feeds/posts/default/' + id + '?alt=json').then(function (d) { return norm(d.entry, true); });
-        });
+        return getFeed('https://' + host + '/feeds/posts/default/' + id)
+            .then(function (d) { return norm(d.entry, true); })
+            .then(null, function () { return getJSON('data/' + key + '/' + id + '.json'); });
     }
 
     function showArticle(key, id) {
@@ -990,11 +1021,9 @@
     function showPage(slug) {
         beginArticle('Memuat halaman…', 'Kembali ke beranda');
         var req = ++viewReq;
-        getInfo()
-            .then(function (map) {
+        getInfoPage(slug)
+            .then(function (e) {
                 if (req !== viewReq) return;
-                var e = map[slug];
-                if (!e) throw new Error('tidak ada');
                 endArticle(e.title, '', e.html);
                 setShare({ kind: 'p', slug: slug }, e.title);
             })

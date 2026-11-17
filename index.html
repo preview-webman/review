@@ -461,7 +461,7 @@
     var CONFIG = {
         // Setelah GitHub Actions (scripts/sync-blogger.mjs) berjalan, ubah ke true:
         // tombol Bagikan akan memakai halaman statis a/... dan p/... yang punya pratinjau (og:) per artikel.
-        staticShare: true,
+        staticShare: false,
         // Alamat dasar situs, mis. 'https://username.github.io/nama-repo/'. Kosong = otomatis.
         siteUrl: '',
 
@@ -965,15 +965,22 @@
         say(msg);
     }
 
+    // Isi artikel: salinan hasil GitHub Actions dulu (data/<blog>/<id>.json), bila tidak ada baru feed Blogger langsung
+    function getPost(key, id) {
+        var host = CONFIG.blogs[key].host;
+        return getJSON('data/' + key + '/' + id + '.json').then(null, function () {
+            return getJSON('https://' + host + '/feeds/posts/default/' + id + '?alt=json').then(function (d) { return norm(d.entry, true); });
+        });
+    }
+
     function showArticle(key, id) {
         var b = CONFIG.blogs[key];
         if (!b) { goHome(); return; }
         beginArticle('Memuat berita…', cameFromList ? 'Kembali ke ' + b.title : 'Kembali ke beranda');
         var req = ++viewReq;
-        getJSON('https://' + b.host + '/feeds/posts/default/' + id + '?alt=json')
-            .then(function (d) {
+        getPost(key, id)
+            .then(function (e) {
                 if (req !== viewReq) return;
-                var e = norm(d.entry, true);
                 endArticle(e.title, e.published, e.html);
                 setShare({ kind: 'a', key: key, id: id }, e.title);
             })

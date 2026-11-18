@@ -1,15 +1,38 @@
 // Sinkron feed Blogger -> data/*.json + halaman artikel lengkap (a/... dan p/...) + sitemap.xml
 // Dijalankan oleh GitHub Actions (Node 20+, tanpa dependensi).
 
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 
-const SITE_URL = (process.env.SITE_URL || '').replace(/\/?$/, '/');
-if (!/^https:\/\//.test(SITE_URL)) {
-  console.error('SITE_URL belum diisi, mis. https://mandaga.my.id/');
-  process.exit(1);
+/* ---------------------------------------------------------------------------
+   KONFIGURASI SITUS (sumber kebenaran tunggal untuk domain)
+   Isi site.config.json. Untuk pindah domain, ubah HANYA file itu.
+   Env SITE_URL (opsional) untuk override sementara, mis. saat uji coba.
+   --------------------------------------------------------------------------- */
+const CONFIG_FILE = 'site.config.json';
+
+async function loadSiteConfig() {
+  let fileCfg = {};
+  try {
+    fileCfg = JSON.parse(await readFile(CONFIG_FILE, 'utf8'));
+  } catch {
+    console.warn(`${CONFIG_FILE} tidak terbaca, pakai default/env.`);
+  }
+  const siteUrl = (process.env.SITE_URL || fileCfg.siteUrl || '').trim().replace(/\/?$/, '/');
+  if (!/^https:\/\//.test(siteUrl)) {
+    console.error(`Domain situs belum diisi. Set siteUrl di ${CONFIG_FILE} (mis. https://domain.sch.id/) atau env SITE_URL.`);
+    process.exit(1);
+  }
+  return {
+    siteUrl,
+    siteName: fileCfg.siteName || 'MAN 2 Grobogan',
+    defaultImage: process.env.DEFAULT_IMAGE || fileCfg.defaultImage || 'https://i.ibb.co.com/KcywhB2N/logo.png'
+  };
 }
-const DEFAULT_IMAGE = process.env.DEFAULT_IMAGE || 'https://i.ibb.co.com/KcywhB2N/logo.png';
-const SITE_NAME = 'MAN 2 Grobogan';
+
+const cfg = await loadSiteConfig();
+const SITE_URL = cfg.siteUrl;
+const DEFAULT_IMAGE = cfg.defaultImage;
+const SITE_NAME = cfg.siteName;
 
 const BLOGS = {
   berita: 'beritamandaga.blogspot.com',
@@ -310,6 +333,26 @@ async function main() {
   console.log(`sitemap: ${sitemapUrls.length} URL`);
 
   await writeFile('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}sitemap.xml\n`);
+
+  await applySiteUrlToIndex();
+  console.log(`index.html: domain diselaraskan ke ${SITE_URL}`);
+}
+
+/* Selaraskan domain di index.html (canonical + CONFIG.siteUrl) dengan SITE_URL.
+   Satu sumber kebenaran: site.config.json. */
+async function applySiteUrlToIndex() {
+  const file = 'index.html';
+  let html;
+  try {
+    html = await readFile(file, 'utf8');
+  } catch {
+    console.warn('index.html tidak ditemukan, dilewati.');
+    return;
+  }
+  const updated = html
+    .replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${esc(SITE_URL)}">`)
+    .replace(/siteUrl:\s*'[^']*'/, `siteUrl: '${SITE_URL}'`);
+  if (updated !== html) await writeFile(file, updated);
 }
 
 main().catch((err) => {

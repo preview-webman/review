@@ -17,8 +17,10 @@ jobs:
           node-version: '20'
       - name: Jalankan sinkron
         env:
-          SITE_URL: https://mandaga.my.id/
-          DEFAULT_IMAGE: https://i.ibb.co.com/KcywhB2N/logo.png
+          # Domain diambil dari site.config.json (sumber kebenaran tunggal).
+          # SITE_URL hanya untuk override sementara bila perlu uji coba.
+          SITE_URL: ${{ vars.SITE_URL }}
+          DEFAULT_IMAGE: ${{ vars.DEFAULT_IMAGE }}
         run: node scripts/sync-blogger.mjs
       - name: Commit hasil
         run: |

@@ -18,6 +18,7 @@
 <meta property="og:title" content="MAN 2 Grobogan - Cerdas, Santun, dan Berprestasi">
 <meta property="og:description" content="Website resmi MAN 2 Grobogan dengan tampilan modern, teknologi digital, dan sistem informasi madrasah profesional.">
 <meta property="og:image" content="https://i.ibb.co.com/KcywhB2N/logo.png">
+<link rel="canonical" href="https://mandaga.my.id/">
 <link rel="icon" href="https://i.ibb.co.com/KcywhB2N/logo.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -463,7 +464,7 @@
         // tombol Bagikan akan memakai halaman statis a/... dan p/... yang punya pratinjau (og:) per artikel.
         staticShare: true,
         // Alamat dasar situs, mis. 'https://username.github.io/nama-repo/'. Kosong = otomatis.
-        siteUrl: '',
+        siteUrl: 'https://mandaga.my.id/',
 
         infoHost: 'infomandaga.blogspot.com', // sumber halaman Profil, Akademik, dst.
         blogs: {
@@ -836,7 +837,10 @@
        ===================================================================== */
     function buildCard(item, key) {
         var a = el('a', 'card');
-        a.href = '#a/' + key + '/' + item.id;
+        // Alamat artikel statis (isi sudah ada di HTML) -> ramah crawler.
+        // Kalau halaman statis belum ada (mis. blog kosong), tetap pakai hash.
+        a.href = 'a/' + key + '/' + item.id + '/';
+        a.setAttribute('data-static', '1');
         var im = el('img');
         im.src = item.thumb || FALLBACK_IMG;
         im.alt = '';
@@ -1078,8 +1082,9 @@
     }
 
     /* =====================================================================
-       ROUTER (hash)
+       ROUTER (hash + path statis)
        Format: #a/<blog>/<id>  #list/<blog>[/<halaman>]  #p/<slug>  #kontak
+       Format statis (isi sudah ada di HTML): a/<blog>/<id>/ dan p/<slug>/
        Format lama (#berita-ID, #p/2026/10/slug) tetap dikenali.
        ===================================================================== */
     function route() {
@@ -1088,6 +1093,14 @@
         if (lastHash !== null) scrollPos[lastHash] = curY;
         cameFromList = (curKind === 'list');
         lastHash = hash;
+
+        if (!h && /\/a\/([a-z]+)\/(\d+)\/?$/.test(location.pathname)) {
+            m = location.pathname.match(/\/a\/([a-z]+)\/(\d+)\/?$/);
+            curKind = 'article';
+            showArticle(m[1], m[2]);
+            navByPop = false;
+            return;
+        }
 
         if ((m = h.match(/^berita-(\d+)$/))) {
             history.replaceState(null, '', '#a/berita/' + m[1]);

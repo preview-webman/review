@@ -87,12 +87,28 @@ function cleanBody(html) {
 
 const CSP = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://drive.google.com https://docs.google.com https://www.google.com https://player.vimeo.com https://www.blogger.com; object-src 'none'; base-uri 'self'; form-action 'none'";
 
+function jsonLd({ title, description, image, pageUrl, date }) {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: title,
+    description: description || SITE_NAME,
+    image: [image],
+    datePublished: date,
+    dateModified: date,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL }
+  }).replace(/</g, '\\u003c');
+}
+
 function articlePage({ title, description, image, pageUrl, date, body }) {
   const t = esc(title);
   const d = esc(description || SITE_NAME);
   const dt = fmtDate(date);
   const img = esc(image);
   const url = esc(pageUrl);
+  const ld = jsonLd({ title, description, image, pageUrl, date });
   return `<!DOCTYPE html>
 <html lang="id">
 <head>
@@ -110,6 +126,7 @@ function articlePage({ title, description, image, pageUrl, date, body }) {
 <meta property="og:image" content="${img}">
 <meta property="og:url" content="${url}">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">${ld}</script>
 <link rel="icon" href="https://i.ibb.co.com/KcywhB2N/logo.png">
 <style>
   :root { --primary:#673DE6; --accent:#08796E; --accent-light:#14C9B6; }
@@ -148,6 +165,68 @@ function articlePage({ title, description, image, pageUrl, date, body }) {
 `;
 }
 
+function listPage({ title, description, image, pageUrl, items }) {
+  const t = esc(title);
+  const d = esc(description || SITE_NAME);
+  const rows = items.map((it) => {
+    const u = esc(it.url);
+    const dt = fmtDate(it.date);
+    return `    <li class="item"><a href="${u}"><span class="date">${esc(dt)}</span><span class="t">${esc(it.title)}</span></a></li>`;
+  }).join('\n');
+  return `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="${CSP}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>${t} - ${SITE_NAME}</title>
+<meta name="description" content="${d}">
+<link rel="canonical" href="${esc(pageUrl)}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="${SITE_NAME}">
+<meta property="og:title" content="${t}">
+<meta property="og:description" content="${d}">
+<meta property="og:image" content="${esc(image)}">
+<meta property="og:url" content="${esc(pageUrl)}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://i.ibb.co.com/KcywhB2N/logo.png">
+<style>
+  :root { --primary:#673DE6; --accent:#08796E; --accent-light:#14C9B6; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Poppins',sans-serif; color:#fff; min-height:100vh; background:linear-gradient(135deg,#24125a 0%,#4c29bc 40%,#673DE6 70%,#3a1999 100%); }
+  .wrap { max-width:820px; margin:0 auto; padding:100px 20px 60px; }
+  .back { display:inline-flex; align-items:center; gap:8px; color:var(--accent-light); text-decoration:none; font-size:.9rem; font-weight:500; margin-bottom:18px; }
+  .back:hover { text-decoration:underline; }
+  .box { padding:36px 40px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:28px; backdrop-filter:blur(16px); }
+  h1 { font-size:clamp(1.35rem,2.4vw,1.9rem); line-height:1.35; font-weight:700; margin-bottom:22px; }
+  ul { list-style:none; }
+  .item { border-top:1px solid rgba(255,255,255,0.14); }
+  .item a { display:block; padding:16px 2px; color:#fff; text-decoration:none; }
+  .item a:hover .t { color:var(--accent-light); }
+  .item .date { display:block; font-size:.78rem; color:var(--accent-light); font-weight:500; margin-bottom:5px; }
+  .item .t { font-size:1rem; line-height:1.5; font-weight:500; }
+  .foot { text-align:center; margin-top:40px; opacity:.8; font-size:.88rem; }
+  .foot a { color:var(--accent-light); }
+  @media (max-width:600px){ .box { padding:24px 18px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="${SITE_URL}" class="back">&larr; Kembali ke beranda</a>
+  <div class="box">
+    <h1>${t}</h1>
+    <ul>
+${rows}
+    </ul>
+  </div>
+  <p class="foot">&copy; ${new Date().getFullYear()} MAN 2 Grobogan. <a href="${SITE_URL}">Kunjungi situs utama</a></p>
+</div>
+</body>
+</html>
+`;
+}
+
 async function writePage(rel, html) {
   await mkdir(rel, { recursive: true });
   await writeFile(`${rel}/index.html`, html);
@@ -155,6 +234,13 @@ async function writePage(rel, html) {
 
 const sitemapUrls = [];
 function addSitemap(url) { sitemapUrls.push(url); }
+
+const BLOG_META = {
+  berita: { title: 'Berita MAN 2 Grobogan', desc: 'Kabar terbaru, kegiatan, dan prestasi MAN 2 Grobogan.' },
+  mading: { title: 'Mading MAN 2 Grobogan', desc: 'Karya dan informasi dari mading madrasah MAN 2 Grobogan.' },
+  foto: { title: 'Galeri Foto MAN 2 Grobogan', desc: 'Dokumentasi foto kegiatan MAN 2 Grobogan.' },
+  video: { title: 'Galeri Video MAN 2 Grobogan', desc: 'Dokumentasi video kegiatan MAN 2 Grobogan.' }
+};
 
 async function main() {
   await rm('data', { recursive: true, force: true });
@@ -185,6 +271,16 @@ async function main() {
       }));
       addSitemap(pageUrl);
     }
+    const meta = BLOG_META[key] || { title: key, desc: '' };
+    const listUrl = `${SITE_URL}a/${key}/`;
+    await writePage(`a/${key}`, listPage({
+      title: meta.title,
+      description: meta.desc,
+      image: DEFAULT_IMAGE,
+      pageUrl: listUrl,
+      items: posts.map((p) => ({ title: p.title, date: p.published, url: `${SITE_URL}a/${key}/${p.id}/` }))
+    }));
+    addSitemap(listUrl);
     console.log(`${key}: ${posts.length} postingan`);
   }
 

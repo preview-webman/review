@@ -25,13 +25,17 @@ async function loadSiteConfig() {
   return {
     siteUrl,
     siteName: fileCfg.siteName || 'MAN 2 Grobogan',
-    defaultImage: process.env.DEFAULT_IMAGE || fileCfg.defaultImage || 'https://i.ibb.co.com/KcywhB2N/logo.png'
+    defaultImage: process.env.DEFAULT_IMAGE || fileCfg.defaultImage || 'assets/logo.webp'
   };
 }
 
 const cfg = await loadSiteConfig();
 const SITE_URL = cfg.siteUrl;
-const DEFAULT_IMAGE = cfg.defaultImage;
+// Path relatif diubah ke URL absolut memakai domain dari site.config.json,
+// supaya og:image / favicon / JSON-LD tetap benar setelah pindah domain.
+const DEFAULT_IMAGE = /^https?:\/\//.test(cfg.defaultImage)
+  ? cfg.defaultImage
+  : new URL(cfg.defaultImage, SITE_URL).href;
 const SITE_NAME = cfg.siteName;
 
 const BLOGS = {
@@ -74,7 +78,11 @@ function norm(e) {
     published: e.published ? e.published.$t : '',
     url: link ? link.href : '',
     html,
-    thumb: thumbOf(e, html),
+    thumb: thumbOf(e, html).replace(
+      // Blog lama memakai logo dari i.ibb.co.com; ganti dengan aset lokal.
+      'https://i.ibb.co.com/KcywhB2N/logo.png',
+      DEFAULT_IMAGE
+    ),
     excerpt: text.length > 140 ? text.slice(0, 140).trim() + '…' : text,
     description: text.length > 200 ? text.slice(0, 200).trim() + '…' : text
   };
@@ -146,11 +154,11 @@ function articlePage({ title, description, image, pageUrl, date, body }) {
 <meta property="og:site_name" content="${SITE_NAME}">
 <meta property="og:title" content="${t}">
 <meta property="og:description" content="${d}">
-<meta property="og:image" content="${img}">
-<meta property="og:url" content="${url}">
+<meta property="og:image" content="${esc(img)}">
+<meta property="og:url" content="${esc(url)}">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">${ld}</script>
-<link rel="icon" href="https://i.ibb.co.com/KcywhB2N/logo.png">
+<link rel="icon" href="${DEFAULT_IMAGE}" type="image/webp">
 <style>
   :root { --primary:#673DE6; --accent:#08796E; --accent-light:#14C9B6; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -213,7 +221,7 @@ function listPage({ title, description, image, pageUrl, items }) {
 <meta property="og:image" content="${esc(image)}">
 <meta property="og:url" content="${esc(pageUrl)}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="https://i.ibb.co.com/KcywhB2N/logo.png">
+<link rel="icon" href="${DEFAULT_IMAGE}" type="image/webp">
 <style>
   :root { --primary:#673DE6; --accent:#08796E; --accent-light:#14C9B6; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -338,8 +346,8 @@ async function main() {
   console.log(`index.html: domain diselaraskan ke ${SITE_URL}`);
 }
 
-/* Selaraskan domain di index.html (canonical + CONFIG.siteUrl) dengan SITE_URL.
-   Satu sumber kebenaran: site.config.json. */
+/* Selaraskan domain di index.html (canonical + siteUrl + og:image) dengan SITE_URL.
+   Aset logo memakai path relatif sehingga ikut otomatis saat pindah domain. */
 async function applySiteUrlToIndex() {
   const file = 'index.html';
   let html;
@@ -351,6 +359,7 @@ async function applySiteUrlToIndex() {
   }
   const updated = html
     .replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${esc(SITE_URL)}">`)
+    .replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${esc(new URL('assets/logo.webp', SITE_URL).href)}">`)
     .replace(/siteUrl:\s*'[^']*'/, `siteUrl: '${SITE_URL}'`);
   if (updated !== html) await writeFile(file, updated);
 }

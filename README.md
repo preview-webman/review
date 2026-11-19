@@ -8,7 +8,8 @@ workflow "Sinkron Blogger".
 
 - `index.html` — beranda (satu halaman, router hash + path statis)
 - `jadwal/` — halaman jadwal pelajaran (`data.json` per 6 bulan)
-- `site.config.json` — **sumber kebenaran domain**
+- `site.config.json` — **sumber kebenaran domain + gambar default**
+- `assets/` — logo & hero WebP lokal (logo: 16,7 KB, hero: 307,3 KB)
 - `scripts/sync-blogger.mjs` — generator: `data/`, `a/`, `p/`, `sitemap.xml`, `robots.txt`
 - `scripts/set-domain.mjs` — ganti domain satu langkah
 - `a/` — artikel blog (Berita, Mading, Foto, Video) — dihasilkan
@@ -50,6 +51,8 @@ SITE_URL=https://uji.sch.id/ node scripts/sync-blogger.mjs
 
 - `staticShare: true` di `index.html` — tombol Bagikan memakai URL statis agar
   pratinjau WhatsApp/Telegram benar.
+- Logo dan hero disimpan lokal di `assets/` dalam WebP. Tidak ada hotlink ke
+  `i.ibb.co.com`; gambar artikel dari Blogger tetap memakai CDN Blogger.
 - Link RDM (`wprdm.my.id/man2grobogan/`) masih ada di menu dan **sudah mati**
   (aplikasi RDM dihapus). Bersihkan sebelum domain produksi.
 - Feed `fotomandaga` dan `videomandaga` masih kosong.

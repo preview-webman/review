@@ -30,7 +30,7 @@ async function main() {
   }
   const siteUrl = normalize(arg);
   const raw = await readFile(CONFIG_FILE, 'utf8').catch(() => '{}');
-  const cfg = { siteName: 'MAN 2 Grobogan', defaultImage: 'https://i.ibb.co.com/KcywhB2N/logo.png', ...JSON.parse(raw) };
+  const cfg = { siteName: 'MAN 2 Grobogan', defaultImage: 'assets/logo.webp', ...JSON.parse(raw) };
   cfg.siteUrl = siteUrl;
   await writeFile(CONFIG_FILE, JSON.stringify(cfg, null, 2) + '\n');
   console.log(`${CONFIG_FILE} -> ${siteUrl}`);
